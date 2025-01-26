@@ -18,10 +18,10 @@
         </ul>
     </nav>
     <div class="w-full px-4 md:w-1/2 container mx-auto mt-20 flex justify-center">
-        <form action="" class="bg-neutral-800 p-4 rounded-md flex flex-col w-full mt-9 mb-9" method="POST">
+        <form action="" class="bg-neutral-800 p-4 rounded-md flex flex-col w-full my-9 p-9" method="POST">
             <h1 class="text-neutral-300 text-center font-semibold text-3xl">Create Task</h1>
             <label class="text-neutral-300 mb-2" for="title">Name Task</label>
-            <input class="p-2 rounded-md outline-none mb-4" type="text" name="title" id="title">
+            <input class="p-2 rounded-md outline-none mb-4 text-neutral-900" type="text" name="title" id="title">
 
             <label class="text-neutral-300 mb-2" for="title">Start Date</label>
             <input class="p-2 rounded-md outline-none mb-4" type="date" name="title" id="title">
