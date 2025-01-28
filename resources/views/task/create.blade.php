@@ -18,7 +18,15 @@
         </ul>
     </nav>
     <div class="w-full px-4 md:w-1/2 container mx-auto mt-20 flex justify-center">
-        <form action="" class="bg-neutral-800 p-4 rounded-md flex flex-col w-full my-9 p-9" method="POST">
+        <form 
+        action="{{route("store")}}" 
+        class="bg-neutral-800 rounded-md flex flex-col w-full my-9 p-9" 
+        method="POST"
+        enctype="multipart/form-data"
+
+        >
+            @csrf
+
             <h1 class="text-neutral-300 text-center font-semibold text-3xl">Create Task</h1>
             <label class="text-neutral-300 mb-2" for="title">Name Task</label>
             <input class="p-2 rounded-md outline-none mb-4 text-neutral-900" type="text" name="title" id="title">
@@ -38,7 +46,7 @@
                 <option value="high">High</option>
             </select>
             <label class="text-neutral-300 mb-2" for="">Photo <span class="text-sm text-neutral-500">(Optional)</span></label>
-            <input class="p-2 rounded-md outline-none mb-4 text-neutral-300 bg-neutral-700" type="file" name="photo" id="photo">
+            <input class="p-2 rounded-md outline-none mb-4 text-neutral-300 bg-neutral-700" type="file" name="photo" id="photo" >
 
             <button class="bg-green-500 rounded p-2 uppercase text-white font-semibold" type="submit">Create
                 Task</button>
