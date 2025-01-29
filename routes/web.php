@@ -17,8 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[TaskController::class, "index"])->name('index');
 Route::get('/create', [TaskController::class, "create"])->name('create');
 Route::post('/store', [TaskController::class, "store"])->name('store');
-
-
-Route::get('/show', function() {
-    return view('task.show');
-})->name('show');
+Route::get('/show', [TaskController::class, "getTaskList"])->name('show');
+Route::post('/show',[TaskController::class, "show"])->name('search');

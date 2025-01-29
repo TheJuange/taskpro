@@ -27,13 +27,13 @@ class TaskController extends Controller
     }
 
 
-    public function SaveImage(UploadedFile $imagen , $carpeta = 'Image')
+    public function SaveImage(UploadedFile $imagen, $carpeta = 'Image')
     {
         if ($imagen->isValid()) {
             $ruta = $imagen->store($carpeta, 'public');
             return Storage::url($ruta);
         }
-    
+
         return null; // Ret
     }
     /**
@@ -42,53 +42,53 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            "name" => "required|string|min:3",
-            "due_date" => "required|date",
-            "priority" => "string|min:3|max:6",
-            "description" => "required|string|min:3",
-            "photo" => "image"
-        ],
-        [
-            "name.required" => "El campo titulo es requerido",
-            "name.string" => "El campo titulo debe ser un texto",
-            "name.min" => "El campo titulo debe tener al menos 3 caracteres",
-            "due_date.required" => "El campo fecha es requerido",
-            "due_date.date" => "El campo fecha debe ser una fecha",
-            "priority.string" => "El campo prioridad debe ser un texto",
-            "priority.min" => "El campo prioridad debe tener al menos 3 caracteres",
-            "priority.max" => "El campo prioridad debe tener como maximo 6 caracteres",
-            "description.required" => "El campo descripcion es requerido",
-            "description.string" => "El campo descripcion debe ser un texto",
-            "description.min" => "El campo descripcion debe tener al menos 3 caracteres",
-            "photo.image" => "El campo foto debe ser una imagen"
-        ]
-    
-    );
+        $validateData = $request->validate(
+            [
+                "title" => "required|string|min:3",
+                "due_date" => "required|date",
+                "priority" => "string|min:3|max:6",
+                "description" => "required|string|min:3",
+                "photo" => "image"
+            ]
 
-        $imagen = $request->file('photo');
-        $pathImage = $this->SaveImage($imagen);
+        );
 
-        dd($pathImage);
-       /* $task = new Task();
-        $task->name = $request->name;
-        $task->due_date = $request->due_date;
-        $task->priority = $request->priority;
-        $task->description = $request->description;
-        $task->image = $pathImage;
+        if ($request->hasFile('photo')) {
+            $imagen = $request->file('photo');
+            $pathImage = $this->SaveImage($imagen);
+        } else {
+            $notImage = "storage/public/default/notImage.png";
+            $pathImage =  $notImage;
+        }
+
+
+        //  dd($pathImage);
+        $task = new Task();
+        $task->title = $validateData['title'];
+        $task->due_date = $validateData['due_date'];
+        $task->priority = $validateData['priority'];
+        $task->description = $validateData['description'];
+        $task->photo = $pathImage;
         $task->completed = false;
-        $task->save();*/
-        return redirect()->route('create');
+        $task->save();
+        return redirect()->back()->with('success', '¡Registro exitoso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
+
+    public function getTaskList()
     {
-        //
+        return view('task.show', ['tasks' => Task::all()]);
     }
 
+
+    public function show(Request $request)
+    {
+        $tasks = Task::where('title', 'like', '%' . $request->search . '%') 
+        ->orWhere('description', 'like', '%' . $request->search  . '%') 
+        ->get();
+        
+        return view('task.show', ['tasks' => $tasks]);
+    }
     /**
      * Show the form for editing the specified resource.
      */

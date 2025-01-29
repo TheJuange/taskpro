@@ -9,7 +9,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="bg-neutral-900">
+<body class="bg-neutral-900 ">
     <nav class="w-full fixed top-0 left-0 flex items-center justify-between p-4 bg-neutral-800">
         <a href="/" class="text-neutral-300 font-semibold text-3xl">TaskPro</a>
         <ul class="flex items-center space-x-4">
@@ -17,26 +17,44 @@
             <a class="text-neutral-300 text-sm font-semibold" href="">github</a>
         </ul>
     </nav>
-    <div class="w-full px-4 md:w-1/2 container mx-auto mt-20 flex justify-center">
-        <form 
-        action="{{route("store")}}" 
-        class="bg-neutral-800 rounded-md flex flex-col w-full my-9 p-9" 
-        method="POST"
-        enctype="multipart/form-data"
-
-        >
+   
+    <div class="w-full px-4 md:w-1/2 container mx-auto mt-20 flex flex-col justify-center">
+        @if (session('success'))
+        <div class="bg-green-500 text-white p-3 rounded-md">
+            {{ session('success') }}
+        </div>
+        @endif
+        <form action="{{route("store")}}" class="bg-neutral-800 rounded-md flex flex-col w-full my-9 p-9" method="POST"
+            enctype="multipart/form-data">
             @csrf
-
+            
             <h1 class="text-neutral-300 text-center font-semibold text-3xl">Create Task</h1>
             <label class="text-neutral-300 mb-2" for="title">Name Task</label>
-            <input class="p-2 rounded-md outline-none mb-4 text-neutral-900" type="text" name="title" id="title">
+            <input class="p-2 rounded-md outline-none mb-4 text-neutral-900" type="text" name="title" id="title"
+                value="{{old('title')}}">
+            @error('title')
+            <div class="mb-4">
+                <p class="text-red-500 text-sm">{{ $message }}</p>
+            </div>
+            @enderror
 
-            <label class="text-neutral-300 mb-2" for="title">Start Date</label>
-            <input class="p-2 rounded-md outline-none mb-4" type="date" name="title" id="title">
+            <label class="text-neutral-300 mb-2" for="due_date">Start Date</label>
+            <input class="p-2 rounded-md outline-none mb-4" type="date" name="due_date" id="title"
+                value="{{old('due_date')}}">
+            @error('due_date')
+            <div class="mb-4">
+                <p class="text-red-500 text-sm">{{ $message }}</p>
+            </div>
+            @enderror
 
             <label class="text-neutral-300 mb-2" for="description">Description</label>
             <textarea class="p-2 rounded-md outline-none mb-4" name="description" id="description" cols="30"
                 rows="5"></textarea>
+            @error('description')
+            <div class="mb-4">
+                <p class="text-red-500 text-sm">{{ $message }}</p>
+            </div>
+            @enderror
 
             <label class="text-neutral-300 mb-2" for="priority">Priority</label>
             <select class="p-2 rounded-md outline-none mb-4" name="priority" id="priority">
@@ -45,8 +63,21 @@
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
-            <label class="text-neutral-300 mb-2" for="">Photo <span class="text-sm text-neutral-500">(Optional)</span></label>
-            <input class="p-2 rounded-md outline-none mb-4 text-neutral-300 bg-neutral-700" type="file" name="photo" id="photo" >
+            @error('priority')
+            <div class="mb-4">
+                <p class="text-red-500 text-sm">{{ $message }}</p>
+            </div>
+            @enderror
+
+            <label class="text-neutral-300 mb-2" for="photo">Photo <span
+                    class="text-sm text-neutral-500">(Optional)</span></label>
+            <input class="p-2 rounded-md outline-none mb-4 text-neutral-300 bg-neutral-700" type="file" name="photo"
+                id="photo">
+            @error('photo')
+            <div class="mb-4">
+                <p class="text-red-500 text-sm">{{ $message }}</p>
+            </div>
+            @enderror
 
             <button class="bg-green-500 rounded p-2 uppercase text-white font-semibold" type="submit">Create
                 Task</button>
