@@ -48,7 +48,7 @@ class TaskController extends Controller
                 "due_date" => "required|date",
                 "priority" => "string|min:3|max:6",
                 "description" => "required|string|min:3",
-                "photo" => "image"
+                "photo" => "image|mimes:jpeg,png,jpg,gif,svg|max:2048"
             ]
 
         );
@@ -89,12 +89,20 @@ class TaskController extends Controller
         
         return view('task.show', ['tasks' => $tasks]);
     }
+
+    public function show_id(Task $id)
+    {
+        $task = Task::find($id);
+        return view('task.detail', ['task' => $task]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit($id)
     {
-        //
+        $tasks = Task::findOrFail($id);
+        //dd($tasks);
+        return view('task.edit', ['tasks' => $tasks]);
     }
 
     /**

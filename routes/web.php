@@ -19,3 +19,5 @@ Route::get('/create', [TaskController::class, "create"])->name('create');
 Route::post('/store', [TaskController::class, "store"])->name('store');
 Route::get('/show', [TaskController::class, "getTaskList"])->name('show');
 Route::post('/show',[TaskController::class, "show"])->name('search');
+Route::get('/show/{id}', [TaskController::class, "show_id"])->name('show_id');
+Route::get('/edit/{id}', [TaskController::class, "edit"])->name('edit');
